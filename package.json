@@ -62,6 +62,7 @@
     },
     "agents": [
       "master-orchestrator",
+      "session-memory",
       "context-manager",
       "playwright-test-agent",
       "senior-fullstack-developer",

@@ -1,7 +1,7 @@
 # CLAUDE Framework Specialized Agents Summary
 
 ## Overview
-This directory contains 12 specialized sub-agents designed to work with the CLAUDE Framework for comprehensive software development projects. Each agent follows CLAUDE standards and provides expertise in their specific domain.
+This directory contains 13 specialized sub-agents designed to work with the CLAUDE Framework for comprehensive software development projects. Each agent follows CLAUDE standards and provides expertise in their specific domain.
 
 ## Agent Roster
 
@@ -14,7 +14,18 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Ensure enterprise-grade quality standards
 - Systematic enforcement of CLAUDE Framework guidelines
 
-### 2. 🏗️ Solutions Architect
+### 2. 💾 Session Memory Agent
+**File:** `session-memory-agent.md`
+**Primary Role:** PROJECT'S PERMANENT MEMORY - Automatically documents everything and ensures perfect continuity
+**Use For:** Session documentation, handover preparation, context preservation, error tracking
+**Key Responsibilities:**
+- Auto-document every significant action
+- Maintain complete project history
+- Prepare comprehensive handover notes
+- Track decisions, errors, and solutions
+- Ensure zero context loss between sessions
+
+### 3. 🏗️ Solutions Architect
 **File:** `solutions-architect.md`
 **Primary Role:** System architecture design and technology stack decisions
 **Use For:** Architecture design, technology stack decisions, scalability planning, architectural reviews
@@ -24,7 +35,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Scalability and integration patterns
 - Architectural reviews and optimization
 
-### 3. 🔒 Security Specialist
+### 4. 🔒 Security Specialist
 **File:** `security-specialist.md`
 **Primary Role:** Security analysis, vulnerability assessment, and security implementation
 **Use For:** Security reviews, vulnerability assessments, security implementation guidance
@@ -34,7 +45,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Defense-in-depth strategies
 - Security best practices implementation
 
-### 4. 💻 Senior Full-Stack Developer
+### 5. 💻 Senior Full-Stack Developer
 **File:** `senior-fullstack-developer.md`
 **Primary Role:** Production-ready code development following CLAUDE Framework standards
 **Use For:** Code development, production readiness reviews, TDD implementation
@@ -44,7 +55,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Comprehensive error handling
 - CLAUDE Framework compliance
 
-### 5. 🧪 QA Testing Engineer
+### 6. 🧪 QA Testing Engineer
 **File:** `qa-testing-engineer.md`
 **Primary Role:** Comprehensive testing strategy implementation and quality assurance
 **Use For:** Test strategy creation, test coverage analysis, quality assurance validation
@@ -54,7 +65,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Quality assurance validation
 - Testing best practices implementation
 
-### 6. 🚀 DevOps Deployment Engineer
+### 7. 🚀 DevOps Deployment Engineer
 **File:** `devops-deployment-engineer.md`
 **Primary Role:** CI/CD pipelines, cloud infrastructure, and deployment strategies
 **Use For:** CI/CD setup, infrastructure management, deployment strategies, production troubleshooting
@@ -64,7 +75,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Infrastructure automation
 - Production monitoring and troubleshooting
 
-### 7. 🗄️ Database Architect
+### 8. 🗄️ Database Architect
 **File:** `database-architect.md`
 **Primary Role:** Database design, optimization, and data system architecture
 **Use For:** Database design, query optimization, data modeling, backup strategies
@@ -74,7 +85,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Data integrity and backup strategies
 - Database security implementation
 
-### 8. 📝 Technical Writer
+### 9. 📝 Technical Writer
 **File:** `technical-writer.md`
 **Primary Role:** Comprehensive documentation creation for all audiences
 **Use For:** Documentation creation, API references, user guides, tutorials
@@ -84,7 +95,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Developer guides and tutorials
 - Documentation maintenance strategies
 
-### 9. 👀 Code Reviewer
+### 10. 👀 Code Reviewer
 **File:** `code-reviewer.md`
 **Primary Role:** Code quality reviews with mentorship focus
 **Use For:** Code reviews, mentorship, best practices enforcement, knowledge transfer
@@ -94,7 +105,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Knowledge transfer and mentorship
 - Code quality assurance
 
-### 10. 🎨 UX/UI Designer
+### 11. 🎨 UX/UI Designer
 **File:** `ux-ui-designer.md`
 **Primary Role:** User-centered design with accessibility and modern patterns
 **Use For:** UI/UX design, accessibility compliance, responsive design, user experience optimization
@@ -104,7 +115,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - User experience optimization
 - Design system implementation
 
-### 11. ⚡ Performance Engineer
+### 12. ⚡ Performance Engineer
 **File:** `performance-engineer.md`
 **Primary Role:** Application performance optimization and monitoring
 **Use For:** Performance optimization, load testing, monitoring, resource optimization
@@ -114,7 +125,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 - Load testing and monitoring
 - Memory management and leak detection
 
-### 12. 🎭 Playwright Test Agent
+### 13. 🎭 Playwright Test Agent
 **File:** `playwright-test-agent.md`
 **Primary Role:** Comprehensive browser automation testing with accessibility, performance, and visual regression testing
 **Use For:** E2E testing, browser automation, accessibility compliance, performance testing, visual regression testing
@@ -144,6 +155,7 @@ This directory contains 12 specialized sub-agents designed to work with the CLAU
 ### Agent Collaboration
 Agents are designed to work together:
 - Master Orchestrator coordinates multiple agents
+- **Session Memory Agent auto-activates after EVERY agent action**
 - Solutions Architect provides foundation for other agents
 - Security Specialist reviews all agent outputs
 - All agents follow CLAUDE Framework standards
