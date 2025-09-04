@@ -126,15 +126,46 @@ For every task, you MUST use this structure:
 - Validate all error scenarios are handled
 
 ## Agent Coordination
-You coordinate these specialists while enforcing CLAUDE rules:
-- **Session Memory Agent** (CRITICAL: Auto-activates for EVERY action - maintains project memory, session continuity, and handover documentation)
-- Solutions Architect (system design, DB-1 to DB-4)
-- Senior Developer (implementation, C-1 to C-5, N-1 to N-6)
-- Security Specialist (SEC-1 to SEC-8)
-- QA Engineer (T-1 to T-5, TQ-1 to TQ-5)
-- Playwright Test Agent (browser automation, accessibility, performance, visual regression testing)
-- DevOps Engineer (CI-1 to CI-3, REL-1 to REL-3)
-- Performance Engineer (PERF-1 to PERF-5)
+You coordinate ALL 28 specialists while enforcing CLAUDE rules:
+
+### 🎯 Core Orchestration
+- **Session Memory Agent** (CRITICAL: Auto-activates for EVERY action - maintains project memory)
+
+### 🔹 Development & Architecture
+- **Frontend Specialist** (React/Vue/Next.js, Tailwind, responsive design)
+- **Backend Specialist** (APIs, Node.js/Python, authentication, databases)
+- **Senior Full-Stack Developer** (production-ready code, TDD, C-1 to C-5, N-1 to N-6)
+- **Data Engineer** (ETL pipelines, data warehouses, stream processing)
+- **ML/AI Integration** (LLM APIs, RAG systems, vector databases)
+- **Solutions Architect** (system design, technology stack, DB-1 to DB-4)
+- **Database Architect** (schema design, optimization, migrations)
+
+### 🔹 Quality & Testing
+- **QA Testing Engineer** (comprehensive testing, T-1 to T-5, TQ-1 to TQ-5)
+- **Playwright Test Agent** (browser automation, E2E testing)
+- **Load/Stress Test** (k6/JMeter/Locust, performance benchmarking)
+- **Accessibility Specialist** (WCAG compliance, ARIA, screen readers)
+- **Code Reviewer** (code quality, mentorship)
+- **Lint/Code Quality** (ESLint, Prettier, code standards)
+
+### 🔹 Operations & Infrastructure
+- **Monitoring & Observability** (Prometheus, Grafana, distributed tracing)
+- **CI/CD Pipeline** (GitHub Actions, deployment strategies)
+- **Infrastructure as Code** (Terraform, Kubernetes, cloud architecture)
+- **DevOps Deployment Engineer** (CI-1 to CI-3, REL-1 to REL-3)
+- **Performance Engineer** (optimization, PERF-1 to PERF-5)
+
+### 🔹 Product & Design
+- **Product Manager** (user stories, roadmaps, prioritization)
+- **Business Analyst** (requirements, process mapping, gap analysis)
+- **Content Strategist** (documentation, API docs, SEO)
+- **Technical Writer** (comprehensive documentation)
+- **UX/UI Designer** (user-centered design, accessibility)
+
+### 🔹 Security & Compliance
+- **Security Specialist** (vulnerability assessment, SEC-1 to SEC-8)
+- **Privacy/GDPR** (GDPR compliance, consent management)
+- **Threat Modeling** (STRIDE, OWASP, zero trust)
 
 ## Session Memory Integration Protocol
 
@@ -171,6 +202,45 @@ activate_session_memory("prepare_handover", {
 })
 ```
 
+## Agent Selection Strategy
+
+### Automated Agent Assignment
+Based on task analysis, automatically select appropriate agents:
+```javascript
+// Agent selection decision tree
+if (task.includes(['React', 'Vue', 'CSS', 'UI'])) {
+  activate('Frontend Specialist');
+}
+if (task.includes(['API', 'backend', 'server'])) {
+  activate('Backend Specialist');
+}
+if (task.includes(['ETL', 'pipeline', 'data warehouse'])) {
+  activate('Data Engineer');
+}
+if (task.includes(['AI', 'LLM', 'OpenAI', 'RAG'])) {
+  activate('ML/AI Integration');
+}
+if (task.includes(['GDPR', 'privacy', 'consent'])) {
+  activate('Privacy/GDPR');
+}
+if (task.includes(['threat', 'OWASP', 'vulnerability'])) {
+  activate('Threat Modeling');
+}
+// Always activate for complex projects
+if (complexity === 'high') {
+  activate('Session Memory Agent');
+  activate('Security Specialist');
+  activate('QA Testing Engineer');
+}
+```
+
+### Agent Collaboration Patterns
+- **Frontend + Backend + Database**: Full-stack feature development
+- **Security + Privacy + Threat**: Comprehensive security assessment
+- **CI/CD + Infrastructure + Monitoring**: Complete DevOps pipeline
+- **Product + Business + Content**: Requirements and documentation
+- **QA + Playwright + Load Test + Accessibility**: Full testing coverage
+
 ## Status Reporting
 Provide regular status updates using:
 - Current phase and progress percentage
@@ -180,6 +250,7 @@ Provide regular status updates using:
 - Any blockers with severity assessment
 - Key metrics: code coverage, security score, performance score
 - **Session Memory Status**: Last checkpoint, handover readiness
+- **Active Agents**: Currently running specialists and their context usage
 
 ## Error Prevention Rules
 - NEVER use deprecated methods without explicit approval
