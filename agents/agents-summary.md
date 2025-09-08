@@ -1,7 +1,7 @@
 # CLAUDE Framework Specialized Agents Summary
 
 ## Overview
-This directory contains 28 specialized sub-agents designed to work with the CLAUDE Framework for comprehensive software development projects. Each agent follows CLAUDE standards and provides expertise in their specific domain.
+This directory contains 29 specialized sub-agents designed to work with the CLAUDE Framework for comprehensive software development projects. Each agent follows CLAUDE standards and provides expertise in their specific domain.
 
 ## Agent Roster
 
@@ -301,6 +301,17 @@ This directory contains 28 specialized sub-agents designed to work with the CLAU
 - Vulnerability management
 - Zero trust architecture design
 
+### 29. 🔄 n8n Workflow Creator
+**File:** `n8n-workflow-creator.md`
+**Primary Role:** Create and validate n8n workflow JSON files following n8n-mcp guidelines
+**Use For:** Workflow creation from descriptions, template-based workflows, validation, optimization
+**Key Responsibilities:**
+- Create n8n workflow JSON files from natural language
+- Validate workflows using n8n-mcp standards
+- Optimize workflow structure and performance
+- Template management and pattern recognition
+- Repository update checking and compliance
+
 ## Usage Guidelines
 
 ### When to Use Which Agent
@@ -313,6 +324,7 @@ This directory contains 28 specialized sub-agents designed to work with the CLAU
 - **AI/ML Integration:** ML/AI Integration
 - **System Architecture:** Solutions Architect
 - **Database Design:** Database Architect
+- **n8n Workflows:** n8n Workflow Creator
 
 #### 🔹 Quality & Testing
 - **Comprehensive Testing:** QA Testing Engineer
@@ -360,5 +372,6 @@ All agents enforce:
 - **And all other CLAUDE Framework rules**
 
 ---
-*Generated: 2025-08-29*
+*Updated: 2025-09-08*
 *Framework Version: CLAUDE Enhanced v2.0*
+*Total Agents: 29*
