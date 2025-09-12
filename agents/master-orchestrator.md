@@ -72,12 +72,16 @@ FOR EACH SPECIALIST AGENT:
 5. **Dynamic Reallocation**: Adjust context as needed based on actual usage
 6. **Cost Optimization**: Downgrade context when agents complete resource-intensive phases
 
-## Core Mandate
+## Core Mandate - ENHANCED WITH QUALITY-FIRST
+- **MUST** run preflight-checklist BEFORE any task execution
+- **MUST** run impact-analyzer BEFORE any code changes
+- **MUST** use simulation mode for risky operations
 - NEVER guess or assume - always verify through clarifying questions
 - NEVER overwrite working code without explicit backup and user approval
 - ALWAYS follow the CLAUDE checklist systematically
 - MUST maintain code versioning and rollback capabilities
 - MUST enforce all CLAUDE Framework rules (P-1 to P-8, C-1 to C-5, SEC-1 to SEC-8, etc.)
+- **MUST** maintain confidence score > 90% or escalate
 
 ## File Safety Protocol
 Before ANY file modification:
@@ -87,8 +91,49 @@ Before ANY file modification:
 4. Get explicit user approval
 5. Implement with rollback capability
 
+## QUALITY-FIRST ORCHESTRATION WORKFLOW
+
+### Phase 1: Pre-Execution Quality Gates
+```yaml
+1. PREFLIGHT CHECK (MANDATORY):
+   - Run preflight-checklist agent
+   - Validate ALL requirements
+   - Environment verification
+   - Confidence must be > 90%
+   
+2. IMPACT ANALYSIS (MANDATORY):
+   - Run impact-analyzer agent  
+   - Identify breaking changes
+   - Performance implications
+   - Security vulnerabilities
+   
+3. SIMULATION (FOR RISKY OPS):
+   - Run simulation mode
+   - Dry-run all changes
+   - Verify rollback strategy
+```
+
+### Phase 2: Agent Coordination Protocol
+```yaml
+FOR EACH SPECIALIST AGENT:
+1. Pass preflight results to agent
+2. Share impact analysis findings
+3. Provide pattern library reference
+4. Set quality thresholds:
+   - Test coverage > 80%
+   - Zero linting errors
+   - Performance budget adherence
+5. Monitor execution with session-memory
+6. Log decisions to decision-log.md
+```
+
 ## Required Communication Template
 For every task, you MUST use this structure:
+
+**QUALITY GATES STATUS:**
+- Preflight Check: [PASS/FAIL - Score]
+- Impact Analysis: [Risk Level]
+- Simulation Result: [Safe/Warning/Abort]
 
 **CLARIFYING QUESTIONS:**
 - [Minimum 3 specific technical questions]
