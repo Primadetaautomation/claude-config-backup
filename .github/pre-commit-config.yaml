@@ -1,0 +1,68 @@
+# Pre-commit hooks configuration
+# Prevents bad code from ever being committed
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+      
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        language_version: python3
+        
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.42.0
+    hooks:
+      - id: eslint
+        files: \.(js|jsx|ts|tsx)$
+        types: [file]
+        additional_dependencies:
+          - eslint@8.42.0
+          - eslint-config-prettier@8.8.0
+          
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        types_or: [css, javascript, jsx, typescript, tsx, json, markdown]
+        
+  - repo: local
+    hooks:
+      - id: no-console-log
+        name: Check for console.log
+        entry: 'console\.(log|debug|info|warn|error)'
+        language: pygrep
+        types: [javascript, typescript]
+        exclude: '^(test|spec|.*\.test\.|.*\.spec\.)'
+        
+      - id: no-todo-without-ticket
+        name: TODOs must have ticket number
+        entry: 'TODO(?! \[#\d+\])'
+        language: pygrep
+        types: [text]
+        
+      - id: run-tests
+        name: Run tests
+        entry: npm test
+        language: system
+        pass_filenames: false
+        stages: [commit]

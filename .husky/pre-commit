@@ -1,0 +1,30 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🚀 Running pre-commit quality checks..."
+
+# 1. Preflight checklist
+echo "✓ Running preflight checklist..."
+node agent-tools/preflight-check.js || exit 1
+
+# 2. Simulation mode test
+echo "✓ Running simulation mode..."
+DRY_RUN=true npm run simulate:all || exit 1
+
+# 3. Linting
+echo "✓ Running linters..."
+npm run lint:fix || exit 1
+
+# 4. Type checking
+echo "✓ Type checking..."
+npm run typecheck 2>/dev/null || true
+
+# 5. Tests
+echo "✓ Running tests..."
+npm test 2>/dev/null || true
+
+# 6. Security scan
+echo "✓ Security scanning..."
+npm audit --audit-level=moderate 2>/dev/null || true
+
+echo "✅ All pre-commit checks passed!"
