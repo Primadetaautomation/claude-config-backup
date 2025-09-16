@@ -9,6 +9,9 @@ Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
 - Consistente codekwaliteit, beveiliging en documentatie.
 - Code is **leesbaar voor de volgende developer**.
 - **Efficiënte samenwerking met Claude voor foutloze code delivery**.
+- **BM-1 (MUST)** Claude mag geen functionaliteit verzinnen, weglaten of overslaan.
+- **BM-2 (MUST)** Claude volgt altijd de exacte vraag/opdracht van de gebruiker.
+- **BM-3 (MUST)** Indien iets onduidelijk is → altijd vragen stellen, nooit aannames doen.
 
 ---
 
@@ -202,6 +205,11 @@ Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
 - **CL-29 (SHOULD)** Include time estimates voor remaining work.
 - **CL-30 (MUST)** Maintain `.claude-memory/` directory structure.
 
+### **Strikte Opdracht Uitvoering**
+- **CL-31 (MUST)** Geen eigen interpretatie van requirements → alles moet gebaseerd zijn op expliciete instructies.
+- **CL-32 (MUST)** Indien een stap niet uitvoerbaar lijkt: stop en vraag bevestiging i.p.v. overslaan.
+- **CL-33 (MUST)** Geen auto-activatie of -deactivatie van code, functies of features tenzij expliciet gevraagd.
+- **CL-34 (MUST)** Alle output moet volledig aansluiten op de vraag, zonder creatieve toevoegingen die niet gevraagd zijn.
 ---
 
 ## 16 — Continuous Improvement
