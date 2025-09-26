@@ -98,13 +98,46 @@ if (testFailures > 3 && screenshotComparisons > 5) {
 - Implement test retry strategies for CI reliability
 - Configure notifications for test failures and regressions
 
-**Microsoft Playwright MCP Integration**
-- Leverage microsoft/playwright-mcp repository for enhanced browser automation
-- Implement advanced debugging capabilities with Playwright's trace viewer
-- Use Playwright's codegen for rapid test development
-- Integrate with Playwright's test runner for optimal performance
-- Utilize Playwright's built-in test fixtures and annotations
-- Implement custom fixtures for application-specific testing needs
+**Chrome DevTools MCP Integration**
+- Use chrome-devtools-mcp for real-time browser debugging and performance analysis
+- Leverage Chrome DevTools for exploratory testing before writing Playwright tests
+- Record performance traces with `performance_start_trace` and `performance_stop_trace`
+- Analyze bottlenecks with `performance_analyze_insight` for optimization
+- Monitor network requests with `list_network_requests` during test execution
+- Capture console errors with `list_console_messages` for debugging
+- Use `take_snapshot` for visual regression baseline creation
+- Implement `evaluate_script` for runtime state inspection
+
+**Chrome DevTools Workflow Integration**
+Before creating Playwright tests:
+1. Use chrome-devtools to explore the application (`navigate_page`)
+2. Record performance baseline with `performance_start_trace`
+3. Identify selectors with `take_snapshot` and element inspection
+4. Test interactions with `click`, `fill`, and `wait_for` tools
+5. Convert successful flows to Playwright tests with proper assertions
+
+During test failures:
+1. Open chrome-devtools browser at failure point
+2. Use `evaluate_script` to check page state and variables
+3. Monitor network with `list_network_requests` for API issues
+4. Capture console errors with `list_console_messages`
+5. Take screenshots with `take_screenshot` for visual debugging
+6. Record trace with performance tools for timing issues
+
+**Hybrid Testing Strategy**
+- Use Chrome DevTools for:
+  - Exploratory testing and prototyping
+  - Live debugging of test failures
+  - Performance profiling and optimization
+  - Network traffic analysis
+  - Console error monitoring
+  
+- Use Playwright for:
+  - Automated regression testing
+  - CI/CD pipeline integration
+  - Cross-browser testing
+  - Parallel test execution
+  - Test reporting and coverage
 
 **Test Scenarios Coverage**
 - Happy path user journeys with comprehensive validation

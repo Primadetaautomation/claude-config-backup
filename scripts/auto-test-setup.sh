@@ -54,6 +54,20 @@ fi
 setup_node_tests() {
     echo "🔧 Setting up JavaScript/TypeScript testing..."
     
+    # Check for Chrome DevTools MCP availability
+    if command -v claude > /dev/null; then
+        echo "🔍 Checking Chrome DevTools MCP installation..."
+        if ! claude mcp list 2>/dev/null | grep -q "chrome-devtools"; then
+            echo "📦 Installing Chrome DevTools MCP for browser automation..."
+            claude mcp add chrome-devtools npx chrome-devtools-mcp@latest 2>/dev/null || {
+                echo "⚠️ Could not install Chrome DevTools MCP automatically"
+                echo "   Please run: claude mcp add chrome-devtools npx chrome-devtools-mcp@latest"
+            }
+        else
+            echo "✅ Chrome DevTools MCP already installed"
+        fi
+    fi
+    
     # Check if tests already exist
     if [ -d "tests" ] || [ -d "test" ] || [ -d "__tests__" ]; then
         echo "📂 Test directory already exists"
