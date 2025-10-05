@@ -181,7 +181,7 @@ Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
 - **CL-4 (MUST)** Vermeld target platform/framework versies expliciet.
 - **CL-5 (SHOULD)** Deel relevante error logs en stack traces.
 - **CL-6 (MUST)** Monitor context usage via context-manager agent.
-- **CL-7 (MUST)** Start met 200K tokens minimum, escaleer naar 1M indien nodig.
+- **CL-7 (MUST)** Bepaal context size automatisch op basis van task complexity (zie §19).
 
 ### **Output Format**
 - **CL-8 (MUST)** Lever complete, uitvoerbare code (geen placeholders).
@@ -204,10 +204,10 @@ Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
 - **CL-21 (MUST)** Version control tussen iteraties.
 
 ### **Context Escalation Triggers**
-- **CL-22 (MUST)** Request 200K voor multi-file projects (>5 files).
-- **CL-23 (MUST)** Request 1M voor full codebase analysis.
+- **CL-22 (MUST)** Auto-escalate op basis van task complexity assessment (zie §19).
+- **CL-23 (MUST)** Monitor en documenteer escalatie redenen voor optimalisatie.
 - **CL-24 (SHOULD)** Use chunking strategy voor grote datasets.
-- **CL-25 (MUST)** Track token costs per session.
+- **CL-25 (MUST)** Track token costs per session en context tier.
 
 ### **Memory & Handover**
 - **CL-26 (MUST)** Auto-save progress via session-memory agent.
@@ -319,18 +319,78 @@ Na elke code delivery:
 ## 19 — Context & Memory Management
 
 ### **Context Window Management**
-- **CTX-1 (MUST)** Start met 200K tokens minimum voor betere kwaliteit en snelheid.
+- **CTX-1 (MUST)** Bepaal context size automatisch op basis van task complexity.
 - **CTX-2 (MUST)** Monitor token usage realtime via context-manager agent.
 - **CTX-3 (MUST)** Auto-escalate bij >75% usage EN incomplete task.
 - **CTX-4 (SHOULD)** Use chunking voor grote datasets.
 - **CTX-5 (MUST)** Track cost per context tier.
 
 ### **Context Escalation Tiers**
-| Tier | Tokens | Use Case | Cost Factor |
-|------|--------|----------|-------------|
-| Minimum | 200K | Standard development tasks, multi-file projects | 6x |
-| Maximum | 1M | Full codebase analysis, enterprise refactoring | 31x |
-| Legacy | 32K | Deprecated - only for simple single-file tasks | 1x |
+| Tier | Tokens | Use Case | Cost Factor | Auto-Select Criteria |
+|------|--------|----------|-------------|----------------------|
+| Minimal | 32K | Single file edits, simple queries, documentation lookup | 1x | ≤1 file, no dependencies, simple task |
+| Small | 64K | Few files (2-3), isolated feature, single component | 2x | 2-3 files, limited scope, clear boundaries |
+| Medium | 128K | Multiple files (4-8), related components, moderate complexity | 4x | 4-8 files, related systems, moderate logic |
+| Standard | 200K | Multi-file projects (9-15), cross-cutting features, complex logic | 6x | 9-15 files, multiple systems, integrations |
+| Large | 500K | Major features (16-30 files), architectural changes, refactoring | 16x | 16-30 files, architecture impact, migrations |
+| Maximum | 1M | Full codebase analysis, enterprise refactoring, system redesign | 31x | >30 files, full system analysis, major refactor |
+
+### **Task Complexity Assessment**
+Claude analyseert automatisch:
+1. **File Count**: Aantal betrokken files
+2. **Dependency Depth**: Hoe diep gaan de dependencies
+3. **Code Complexity**: Cyclomatic complexity, nesting levels
+4. **Task Type**:
+   - Simple: Bug fix, typo, config change → 32K-64K
+   - Moderate: New feature, component addition → 128K-200K
+   - Complex: Refactoring, architecture changes → 500K-1M
+5. **Cross-cutting Concerns**: Security, performance, testing impact
+
+### **Praktische Voorbeelden**
+
+**Voorbeeld 1: Simple Task (32K)**
+```
+Task: "Fix typo in error message in src/utils/validator.ts"
+Analysis:
+- Files: 1
+- Dependencies: None
+- Complexity: Minimal
+- Impact: Isolated
+→ Context: 32K
+```
+
+**Voorbeeld 2: Moderate Task (128K)**
+```
+Task: "Add email validation to user registration form"
+Analysis:
+- Files: 3 (form component, validation util, tests)
+- Dependencies: Validation library
+- Complexity: Moderate (regex, error handling)
+- Impact: Single feature
+→ Context: 128K
+```
+
+**Voorbeeld 3: Complex Task (500K)**
+```
+Task: "Refactor authentication system to support OAuth2"
+Analysis:
+- Files: 15-20 (auth services, middleware, routes, tests, config)
+- Dependencies: OAuth libraries, session management, security
+- Complexity: High (state management, token handling, security)
+- Impact: Cross-cutting (affects multiple modules)
+→ Context: 500K
+```
+
+**Voorbeeld 4: Maximum Task (1M)**
+```
+Task: "Migrate entire application from REST to GraphQL"
+Analysis:
+- Files: 50+ (all API routes, resolvers, schema, client code)
+- Dependencies: GraphQL libraries, schema design
+- Complexity: Very high (architectural change)
+- Impact: System-wide
+→ Context: 1M
+```
 
 ### **Memory Management**
 - **MEM-1 (MUST)** Use session-memory agent voor ALLE significant actions.
@@ -357,11 +417,40 @@ Na elke code delivery:
 └── handover-notes.md       # Quick start
 ```
 
+### **Context Selection Decision Tree**
+```
+START
+  ↓
+Hoeveel files zijn betrokken?
+  1 file → 32K (Minimal)
+  2-3 files → Check complexity ↓
+  4-8 files → Check dependencies ↓
+  9-15 files → 200K (Standard)
+  16-30 files → 500K (Large)
+  >30 files → 1M (Maximum)
+  ↓
+Is het een architecturale wijziging?
+  YES → +1 tier (min 500K)
+  NO → Continue
+  ↓
+Zijn er cross-cutting concerns (security, perf, testing)?
+  YES → +1 tier
+  NO → Continue
+  ↓
+Wat is de code complexity?
+  Low (< 5 cyclomatic) → Huidige tier
+  Medium (5-10) → +1 tier
+  High (>10) → +2 tiers
+  ↓
+FINAL CONTEXT SIZE SELECTED
+```
+
 ### **Token Optimization**
 - **OPT-1 (SHOULD)** Pre-filter irrelevant files.
 - **OPT-2 (SHOULD)** Use references voor repeated code.
 - **OPT-3 (MUST)** Clear unused context regularly.
 - **OPT-4 (SHOULD)** Compress historical data.
+- **OPT-5 (MUST)** Document actual vs estimated context usage voor verbetering.
 
 ---
 
@@ -370,16 +459,16 @@ Na elke code delivery:
 ### **Agent Selection Matrix**
 | Task Type | Primary Agent | Context Tier | Auto-Trigger | Context7 |
 |-----------|--------------|--------------|--------------|----------|
-| API Development | backend-specialist | 200K-1M | Yes | ✅ |
-| Context Management | context-manager | 200K | Always | ⚙️ |
-| Memory/Documentation | session-memory | 200K | Always | 📝 |
-| Security Review | security-specialist | 200K-1M | On deploy | ✅ |
-| Testing | qa-testing-engineer | 200K-1M | After code | ✅ |
-| Performance | load-stress-test | 200K-1M | Pre-deploy | ✅ |
-| Architecture | solutions-architect | 200K-1M | On design | ✅ |
-| Frontend Dev | frontend-specialist | 200K-1M | Yes | ✅ |
-| ML/AI Integration | ml-ai-integration | 200K-1M | Yes | ✅ |
-| Data Engineering | data-engineer | 200K-1M | Yes | ✅ |
+| API Development | backend-specialist | Auto (128K-1M) | Yes | ✅ |
+| Context Management | context-manager | Auto (32K-200K) | Always | ⚙️ |
+| Memory/Documentation | session-memory | Auto (32K-128K) | Always | 📝 |
+| Security Review | security-specialist | Auto (128K-1M) | On deploy | ✅ |
+| Testing | qa-testing-engineer | Auto (64K-500K) | After code | ✅ |
+| Performance | load-stress-test | Auto (128K-500K) | Pre-deploy | ✅ |
+| Architecture | solutions-architect | Auto (200K-1M) | On design | ✅ |
+| Frontend Dev | frontend-specialist | Auto (64K-500K) | Yes | ✅ |
+| ML/AI Integration | ml-ai-integration | Auto (128K-1M) | Yes | ✅ |
+| Data Engineering | data-engineer | Auto (128K-1M) | Yes | ✅ |
 
 ### **Agent Communication**
 - **AGENT-1 (MUST)** Use structured JSON for inter-agent messages.
@@ -808,7 +897,7 @@ agent_request = {
 - **GIT-1 to GIT-3** → Git conventions
 
 **Context & Memory**
-- **CTX-1 to CTX-5** → Context window management (start with 200K)
+- **CTX-1 to CTX-5** → Automatische context sizing op basis van task complexity
 - **MEM-1 to MEM-5** → Session memory & handover
 - **CL-1 to CL-21** → Claude optimization basics
 
@@ -1305,5 +1394,6 @@ pre-commit install
 
 ---
 
-*Versie 4.0 - Complete Enhanced Edition*
+*Versie 4.1 - Intelligent Context Management Edition*
 *Includes: Infrastructure, Privacy/GDPR, Debugging, Communication, Dev Environment, Real-World Workflows, Priority Matrix, Automation & Tooling*
+*NEW: Automatische context sizing (32K-1M) op basis van task complexity analysis*
