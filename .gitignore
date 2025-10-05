@@ -8,6 +8,11 @@ shell-snapshots/
 todos/
 statsig/
 test-scenarios/
+projects/
+local/
+file-history/
+history.jsonl
+agent-tools/playwright-mcp/
 
 # macOS files
 .DS_Store

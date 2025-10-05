@@ -1,9 +1,0 @@
-model = "gpt-5-codex"
-
-[profiles.codex_default]
-ask_for_approval = "on-request"
-sandbox = "workspace-write"
-
-[projects."/Users/jamese"]
-trust_level = "trusted"
-profile = "codex_default"
