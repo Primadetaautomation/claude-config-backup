@@ -89,11 +89,13 @@ fi
 
 # 6. Check function length
 echo "📏 Checking function length..."
-LONG_FUNCTIONS=$(find . -name "*.ts" -o -name "*.js" | grep -v node_modules | xargs grep -E "^\s*(function|async function|const \w+ = \(.*\) =>)" -A 25 | grep -c "^--$" || true)
-if [ "$LONG_FUNCTIONS" -gt 0 ]; then
-    echo -e "${YELLOW}⚠️  Found functions longer than 20 lines${NC}"
-else
-    echo -e "${GREEN}✓ All functions within size limits${NC}"
+if check_tool "eslint" "function length check"; then
+    if eslint . --ext .ts,.tsx,.js,.jsx --rule 'max-lines-per-function:["error",20]' > /dev/null; then
+        echo -e "${GREEN}✓ All functions within size limits${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Found functions longer than 20 lines${NC}"
+        FAILED=1
+    fi
 fi
 
 # Final result
