@@ -1,48 +1,5 @@
 # 🎯 CLAUDE - Smart Development Standards
 
-**🇬🇧 English** | [🇳🇱 Nederlands](#-nederlandse-versie-1)
-
-**Version 5.0 - Modular Intent-Based System**
-
-These rules ensure **high-quality, secure and maintainable code**.
-**MUST = required** | **SHOULD = recommended** | **COULD = optional**
-
----
-
-## 📋 Automatic Context Loading (NEW!)
-
-**IMPORTANT CHANGE:** Claude now automatically loads relevant documentation based on your question.
-
-### How it works:
-
-**STEP 1: You ask a question** (in plain language)
-- "I want users to be able to login"
-- "Create a database connection"
-- "Show a list of products"
-
-**STEP 2: Claude analyzes intent**
-- What do you want to achieve?
-- Which components are involved?
-- What expertise is needed?
-
-**STEP 3: Claude automatically loads the right docs**
-```bash
-/add docs/backend.md      # For data, APIs, databases
-/add docs/frontend.md     # For UI, forms, pages
-/add docs/security.md     # For login, privacy, security
-/add docs/infrastructure.md  # For deployment, hosting
-/add docs/testing.md      # For bugs, testing, quality
-```
-
-**STEP 4: Claude works with full context**
-
----
-
-<a id="-nederlandse-versie-1"></a>
-# 🎯 CLAUDE - Smart Development Standards
-
-**[🇬🇧 English](#-claude---smart-development-standards)** | **🇳🇱 Nederlands**
-
 **Versie 5.0 - Modular Intent-Based System**
 
 Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
@@ -76,58 +33,6 @@ Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
 ```
 
 **STAP 4: Claude werkt met volledige context**
-
----
-
-### Intent → Docs Mapping
-
-**💾 Storing, retrieving, modifying data:**
-→ Automatically loads: `docs/backend.md`
-
-Recognizable phrases:
-- "connect to database"
-- "save/store/retrieve data"
-- "create API"
-- "get data from database"
-
-**🎨 Show something on screen:**
-→ Automatically loads: `docs/frontend.md`
-
-Recognizable phrases:
-- "add button"
-- "create form"
-- "build page"
-- "show list"
-- "user should see"
-
-**🔒 Users, login, security:**
-→ Automatically loads: `docs/security.md`
-
-Recognizable phrases:
-- "login/register"
-- "password"
-- "create account"
-- "privacy/GDPR"
-- "user data"
-
-**🚀 Deploy, go live:**
-→ Automatically loads: `docs/infrastructure.md`
-
-Recognizable phrases:
-- "put website live"
-- "deploy/publish"
-- "hosting"
-- "make available online"
-
-**🐛 Fix problems, testing:**
-→ Automatically loads: `docs/testing.md`
-
-Recognizable phrases:
-- "error/bug"
-- "doesn't work"
-- "crash"
-- "test"
-- "bug fix"
 
 ---
 
@@ -183,17 +88,6 @@ Herkenbare zinnen:
 
 ---
 
-## 0 — Core Mission
-
-- Consistent code quality, security and documentation.
-- Code is **readable for the next developer**.
-- **Efficient collaboration with Claude for flawless code delivery**.
-- **BM-1 (MUST)** Claude must not invent, omit or skip functionality.
-- **BM-2 (MUST)** Claude always follows the exact question/instruction from the user.
-- **BM-3 (MUST)** If something is unclear → always ask questions, never make assumptions.
-
----
-
 ## 0 — Basis Missie
 
 - Consistente codekwaliteit, beveiliging en documentatie.
@@ -205,19 +99,8 @@ Herkenbare zinnen:
 
 ---
 
-## 1 — Planning & Communication / Communicatie
+## 1 — Planning & Communicatie
 
-**🇬🇧 English:**
-- **P-1 (MUST)** Ask at least 3 clarifying questions before coding.
-- **P-2 (MUST)** Create a step-by-step plan and explicitly ask for approval.
-- **P-3 (MUST)** For multiple options: comparison table with pros/cons.
-- **P-4 (MUST)** Define acceptance criteria.
-- **P-5 (SHOULD)** Give complexity level (Simple/Medium/Complex).
-- **P-6 (MUST)** Always explain **WHY** you make choices.
-- **P-7 (MUST)** Document impact on existing code.
-- **P-8 (SHOULD)** Mention which files you will modify.
-
-**🇳🇱 Nederlands:**
 - **P-1 (MUST)** Stel minimaal 3 clarifying questions vóór coding.
 - **P-2 (MUST)** Maak een step-by-step plan en vraag expliciet om akkoord.
 - **P-3 (MUST)** Bij meerdere opties: comparison table met pros/cons.
@@ -228,17 +111,6 @@ Herkenbare zinnen:
 - **P-8 (SHOULD)** Noem welke files je gaat aanpassen.
 
 ### 🔍 Impact Analysis (CRITICAL)
-
-**🇬🇧 English:**
-- **IA-1 (MUST)** Before EVERY code change: analyze impact on existing functionality.
-- **IA-2 (MUST)** Check all dependencies that may be affected.
-- **IA-3 (MUST)** Search for all files that import/use the code to be changed.
-- **IA-4 (MUST)** Run existing tests BEFORE changes to determine baseline.
-- **IA-5 (MUST)** When overwriting: backup/document original implementation.
-- **IA-6 (MUST NOT)** Never overwrite code without impact check.
-- **IA-7 (MUST)** When in doubt: explicitly ask "May I overwrite X? This impacts Y"
-
-**🇳🇱 Nederlands:**
 - **IA-1 (MUST)** Vóór ELKE code wijziging: analyseer impact op bestaande functionaliteit.
 - **IA-2 (MUST)** Check alle afhankelijkheden die geraakt kunnen worden.
 - **IA-3 (MUST)** Zoek naar alle files die de te wijzigen code importeren/gebruiken.
@@ -249,34 +121,26 @@ Herkenbare zinnen:
 
 ---
 
-> **📝 Note / Notitie:** Sections 2-9 use standardized rule identifiers (C-1, E-1, T-1, etc.) that are language-independent.
-> Dutch descriptions provided below. For English translations of specific rules, refer to the English section above or contact repository maintainers.
->
-> **Secties 2-9 gebruiken gestandaardiseerde regel-identificatoren (C-1, E-1, T-1, etc.) die taal-onafhankelijk zijn.**
-> Nederlandse beschrijvingen hieronder. Voor Engelse vertalingen van specifieke regels, zie de Engelse sectie hierboven of neem contact op met repository beheerders.
-
----
-
-## 2 — Code Quality / Code Kwaliteit
+## 2 — Code Kwaliteit
 
 - **C-1 (MUST)** Single Responsibility Principle.
-- **C-2 (MUST)** DRY (geen duplicatie / no duplication).
-- **C-3 (MUST)** KISS (simpel > complex / simple > complex).
-- **C-4 (MUST)** Functions max 20 regels / lines.
+- **C-2 (MUST)** DRY (geen duplicatie).
+- **C-3 (MUST)** KISS (simpel > complex).
+- **C-4 (MUST)** Functions max 20 regels.
 - **C-5 (SHOULD)** Composition > inheritance.
-- **N-1 (MUST)** Beschrijvende namen / Descriptive names (geen `x`, `temp`, `data`).
-- **N-2 (MUST)** Functions: werkwoorden / verbs (`getUserData`, `calculateTotal`).
-- **N-3 (MUST)** Variables: zelfstandig naamwoorden / nouns (`user`, `totalAmount`).
+- **N-1 (MUST)** Beschrijvende namen (geen `x`, `temp`, `data`).
+- **N-2 (MUST)** Functions: werkwoorden (`getUserData`, `calculateTotal`).
+- **N-3 (MUST)** Variables: zelfstandig naamwoorden (`user`, `totalAmount`).
 - **N-4 (MUST)** Booleans: `is/has` prefix (`isValid`, `hasPermission`).
 - **N-5 (MUST)** Constants: UPPERCASE (`MAX_RETRY_COUNT`).
 - **N-6 (MUST)** Classes: PascalCase (`UserService`, `OrderController`).
-- **S-1 (MUST)** Consistente indentatie / Consistent indentation (2 of 4 spaces).
-- **S-2 (MUST)** Max 120 karakters per regel / characters per line.
-- **S-3 (SHOULD)** Comments alleen voor **WHY**, niet WHAT / only for **WHY**, not WHAT.
+- **S-1 (MUST)** Consistente indentatie (2 of 4 spaces).
+- **S-2 (MUST)** Max 120 karakters per regel.
+- **S-3 (SHOULD)** Comments alleen voor **WHY**, niet WHAT.
 
 ---
 
-## 3 — Error Handling / Foutafhandeling
+## 3 — Error Handling
 
 - **E-1 (MUST)** Handle alle error scenarios.
 - **E-2 (MUST)** Specifieke error types/messages.
@@ -285,14 +149,14 @@ Herkenbare zinnen:
 - **E-5 (SHOULD)** Fail fast: inputs vroeg valideren.
 
 ### Logging
-- **L-1 (MUST)** Structured logs (JSON waar mogelijk / where possible).
-- **L-2 (MUST NOT)** Geen gevoelige data loggen / No sensitive data in logs.
-- **L-3 (SHOULD)** Gebruik correlation IDs / Use correlation IDs.
+- **L-1 (MUST)** Structured logs (JSON waar mogelijk).
+- **L-2 (MUST NOT)** Geen gevoelige data loggen.
+- **L-3 (SHOULD)** Gebruik correlation IDs.
 - **L-4 (SHOULD)** Levels: DEBUG, INFO, WARN, ERROR.
 
 ---
 
-## 4 — Testing / Testen
+## 4 — Testing
 
 - **T-1 (MUST)** TDD (Red → Green → Refactor).
 - **T-2 (MUST)** Minimaal 80% coverage nieuwe code.
@@ -305,7 +169,7 @@ Herkenbare zinnen:
 
 ---
 
-## 5 — Security & Privacy / Beveiliging & Privacy
+## 5 — Security & Privacy
 
 - **SEC-1 (MUST)** Input validation aan system boundaries.
 - **SEC-2 (MUST)** Sanitize outputs.
@@ -318,7 +182,7 @@ Herkenbare zinnen:
 
 ---
 
-## 6 — Git & Version Control / Versiebeheer
+## 6 — Git & Version Control
 
 - **GIT-1 (MUST)** Conventional Commits.
 - **GIT-2 (MUST)** Atomic commits.
@@ -329,7 +193,7 @@ Herkenbare zinnen:
 
 ---
 
-## 7 — Context & Memory Management / Context & Geheugen Beheer
+## 7 — Context & Memory Management
 
 ### Context Window Tiers
 | Tier | Tokens | Use Case | Cost | Auto-Select |
@@ -354,7 +218,7 @@ Claude analyseert automatisch:
 
 ---
 
-## 8 — Claude Optimization / Optimalisatie
+## 8 — Claude Optimization
 
 ### Context & Communication
 - **CL-1 (MUST)** Geef volledige file paths en project structuur.
@@ -394,7 +258,7 @@ Claude analyseert automatisch:
 
 ---
 
-## 9 — Priority Matrix / Prioriteiten Matrix
+## 9 — Priority Matrix
 
 ### 🔴 CRITICAL - Always Apply
 **Core Requirements (Breaking these = delivery rejected)**
@@ -422,7 +286,75 @@ Claude analyseert automatisch:
 
 ---
 
-## 📚 Available Extended Docs / Beschikbare Extended Docs
+## 📚 Agent Skills System (NIEUW!)
+
+**Claude gebruikt nu Agent Skills** - georganiseerde bundles van instructies, patronen en scripts die automatisch geladen worden op basis van je taak.
+
+### 🎯 Automatische Skill Loading
+
+Claude detecteert automatisch welke skills nodig zijn:
+
+**Backend Development:**
+→ Laadt: `backend-development-patterns`
+- API design (REST/GraphQL)
+- Database patterns
+- Repository & Service layers
+- Authentication patterns
+
+**Security Review:**
+→ Laadt: `security-essentials`
+- OWASP Top 10 checklist
+- Input validation patterns
+- Secret management
+- Security scan scripts
+
+**Testing & QA:**
+→ Laadt: `testing-fundamentals`
+- TDD workflow (Red-Green-Refactor)
+- Test coverage requirements
+- AAA pattern
+- Test data factories
+
+**Production Deployment:**
+→ Laadt: `deployment-workflows`
+- CI/CD pipelines
+- Zero-downtime strategies
+- Health checks
+- Rollback procedures
+
+**Code Quality:**
+→ Laadt: `production-code-standards`
+- SOLID principles
+- Error handling patterns
+- Code review checklist
+- Quality gate scripts
+
+### 📦 Skills Locatie
+
+Alle skills zijn beschikbaar in: `.claude-skills/`
+
+Elke skill bevat:
+- `SKILL.md` - Hoofd documentatie met progressive disclosure
+- Detailed patterns - Diepgaande implementatie voorbeelden
+- Scripts - Uitvoerbare tools en automatisering
+
+### 🔄 Progressive Context Loading
+
+Skills gebruiken 3 context levels:
+1. **Minimal** (Level 1) - Altijd geladen, core principles
+2. **Detailed** (Level 2) - Op verzoek, complete patronen
+3. **Full** (Level 3) - Scripts en templates wanneer nodig
+
+Dit bespaart context tokens en laadt alleen wat nodig is.
+
+### 🎨 Skills vs Docs
+
+**Skills** (`.claude/skills/`) = Reusable patterns + scripts + tools
+**Docs** (`docs/`) = Project-specifieke documentatie
+
+Skills zijn herbruikbaar over projecten heen, docs zijn project-specifiek.
+
+### 📚 Beschikbare Extended Docs
 
 Als je meer detail nodig hebt, zeg dan expliciet:
 - **"Gebruik ook backend docs"** → laadt `docs/backend.md`
@@ -435,7 +367,7 @@ Claude doet dit meestal automatisch, maar je kunt het ook handmatig vragen.
 
 ---
 
-## 🚀 Quick Commands / Snelle Commando's
+## 🚀 Quick Commands
 
 ### Planning & Context
 - **`/qnew`** - Start nieuwe taak (auto-load relevante docs)
@@ -456,7 +388,7 @@ Claude doet dit meestal automatisch, maar je kunt het ook handmatig vragen.
 
 ---
 
-## 💡 For Non-Technical Users / Voor Niet-Technische Gebruikers
+## 💡 Voor Niet-Technische Gebruikers
 
 **Je hoeft GEEN technische taal te gebruiken!**
 
@@ -469,7 +401,7 @@ Claude herkent dit automatisch en laadt de juiste documentatie.
 
 ---
 
-## 🎯 Success Metrics / Succes Metrieken
+## 🎯 Success Metrics
 
 ### Weekly Review
 - [ ] First-time success rate > 70%
