@@ -1,0 +1,47 @@
+{
+  "scripts": {
+    "// PLAYWRIGHT CPU-OPTIMIZED SCRIPTS": "",
+
+    "// Build & Preview": "",
+    "build": "vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+
+    "// Test Scripts - CPU Optimized": "",
+    "test": "pnpm build && pnpm exec playwright test --workers=1",
+    "test:headed": "pnpm build && pnpm exec playwright test --workers=1 --headed",
+    "test:debug": "pnpm exec playwright test --debug --workers=1",
+    "test:ui": "pnpm exec playwright test --ui --workers=1",
+
+    "// Multi-browser (gebruik spaarzaam!)": "",
+    "test:all": "pnpm build && PW_ALL_BROWSERS=1 pnpm exec playwright test --workers=1",
+
+    "// Quick Tests - Skip Build": "",
+    "test:quick": "pnpm exec playwright test --workers=1",
+    "test:single": "pnpm exec playwright test --workers=1 --project=chromium",
+
+    "// Maintenance": "",
+    "test:update": "pnpm exec playwright test --update-snapshots",
+    "test:install": "pnpm exec playwright install chromium",
+    "test:install:all": "pnpm exec playwright install",
+
+    "// CPU Monitoring (MacOS)": "",
+    "test:monitor": "top -pid $(pgrep -f playwright) & pnpm test",
+
+    "// Kill zombie processes": "",
+    "test:cleanup": "pkill -f chromium || true && pkill -f playwright || true"
+  },
+
+  "// AANBEVOLEN CONFIGURATIE": {
+    "workers": "1 voor lokaal, max 2 voor CI",
+    "browsers": "Alleen Chromium standaard",
+    "headless": "Altijd true voor CPU-besparing",
+    "video": "Altijd off",
+    "trace": "Alleen on-failure in CI",
+    "tips": [
+      "Gebruik test:quick voor snelle iteraties",
+      "Gebruik test:single voor één browser",
+      "Run test:cleanup als processen blijven hangen",
+      "Zet aantal workers nooit hoger dan CPU cores / 2"
+    ]
+  }
+}
