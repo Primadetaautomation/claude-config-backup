@@ -1,0 +1,33 @@
+{
+  "name": "claude-dev-toolkit",
+  "description": "Complete development toolkit: 38 specialized agents, 6 core skills, defensive programming patterns, Playwright optimization, and comprehensive automation scripts for modern software development",
+  "version": "1.0.0",
+  "author": {
+    "name": "Rick van Beek",
+    "url": "https://github.com/Primadetaautomation"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Primadetaautomation/claude-config-backup"
+  },
+  "keywords": [
+    "agents",
+    "fullstack",
+    "testing",
+    "playwright",
+    "security",
+    "qa",
+    "accessibility",
+    "ml-ai",
+    "data-engineering",
+    "n8n",
+    "devops",
+    "toolkit",
+    "automation",
+    "development"
+  ],
+  "license": "MIT",
+  "compatibility": {
+    "claude_code": ">=2.0.0"
+  }
+}
