@@ -20,7 +20,7 @@ A complete development ecosystem previously used as a backup configuration, now 
 
 ```bash
 # Add the marketplace
-/plugin marketplace add Primadetaautomation/claude-config-backup
+/plugin marketplace add Primadetaautomation/claude-dev-toolkit
 
 # Install the plugin
 /plugin install claude-dev-toolkit
@@ -218,8 +218,8 @@ MIT License - Free to use and modify
 
 ## 🔗 Links
 
-- **GitHub**: https://github.com/Primadetaautomation/claude-config-backup
-- **Issues**: https://github.com/Primadetaautomation/claude-config-backup/issues
+- **GitHub**: https://github.com/Primadetaautomation/claude-dev-toolkit
+- **Issues**: https://github.com/Primadetaautomation/claude-dev-toolkit/issues
 
 ---
 
@@ -247,7 +247,7 @@ Een compleet development ecosystem dat voorheen als backup configuratie werd geb
 
 ```bash
 # Voeg marketplace toe
-/plugin marketplace add Primadetaautomation/claude-config-backup
+/plugin marketplace add Primadetaautomation/claude-dev-toolkit
 
 # Installeer de plugin
 /plugin install claude-dev-toolkit
@@ -422,8 +422,8 @@ MIT License - Gratis te gebruiken en aanpassen
 
 ## 🔗 Links
 
-- **GitHub**: https://github.com/Primadetaautomation/claude-config-backup
-- **Issues**: https://github.com/Primadetaautomation/claude-config-backup/issues
+- **GitHub**: https://github.com/Primadetaautomation/claude-dev-toolkit
+- **Issues**: https://github.com/Primadetaautomation/claude-dev-toolkit/issues
 
 ---
 

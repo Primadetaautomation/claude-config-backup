@@ -28,11 +28,11 @@ This plugin is open source and welcomes contributions from the community.
 # Fork the repo on GitHub (click "Fork" button)
 
 # Clone YOUR fork
-git clone https://github.com/YOUR-USERNAME/claude-config-backup.git
-cd claude-config-backup
+git clone https://github.com/YOUR-USERNAME/claude-dev-toolkit.git
+cd claude-dev-toolkit
 
 # Add upstream remote
-git remote add upstream https://github.com/Primadetaautomation/claude-config-backup.git
+git remote add upstream https://github.com/Primadetaautomation/claude-dev-toolkit.git
 ```
 
 ### **2. Create a Branch**
@@ -119,10 +119,10 @@ Follow the progressive disclosure pattern:
 
 ```bash
 # Test the plugin locally
-cd ~/claude-config-backup
+cd ~/claude-dev-toolkit
 
 # Install locally
-/plugin marketplace add ~/claude-config-backup
+/plugin marketplace add ~/claude-dev-toolkit
 /plugin install claude-dev-toolkit
 
 # Verify your changes work
@@ -336,8 +336,8 @@ Contributors will be:
 
 ## 📞 Questions?
 
-- **Issues**: https://github.com/Primadetaautomation/claude-config-backup/issues
-- **Discussions**: https://github.com/Primadetaautomation/claude-config-backup/discussions
+- **Issues**: https://github.com/Primadetaautomation/claude-dev-toolkit/issues
+- **Discussions**: https://github.com/Primadetaautomation/claude-dev-toolkit/discussions
 
 ---
 
