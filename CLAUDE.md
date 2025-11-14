@@ -265,7 +265,7 @@ Claude analyseert automatisch:
 - **AGENT-3 (SHOULD)** Delegeer naar specifieke agents op basis van taaktype:
   - **backend-specialist**: API's, databases, server-side logic
   - **frontend-specialist**: UI components, styling, client-side interactie
-  - **security-specialist**: Authentication, authorization, GDPR compliance
+  - **⚠️ SECURITY: Gebruik `Skill: security-essentials`** - NIET een security agent!
   - **qa-testing-engineer**: Test strategie, coverage analysis, quality assurance
   - **accessibility-specialist**: WCAG compliance, inclusive design
   - **data-engineer**: ETL pipelines, data warehouse, data quality
@@ -332,11 +332,12 @@ Claude detecteert automatisch welke skills nodig zijn:
 - Authentication patterns
 
 **Security Review:**
-→ Laadt: `security-essentials`
+→ Laadt: `security-essentials` (GEBRUIK DIT, NIET security agent!)
 - OWASP Top 10 checklist
 - Input validation patterns
 - Secret management
 - Security scan scripts
+- **BELANGRIJK: Gebruik ALTIJD de security-essentials skill, NOOIT Task tool voor security**
 
 **Testing & QA:**
 → Laadt: `testing-fundamentals`
