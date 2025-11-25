@@ -76,7 +76,7 @@ git clone https://github.com/Primadetaautomation/claude-dev-toolkit.git
 
 [View all 38 agents →](agents/)
 
-### 🎯 6 Core Skills (Progressive Disclosure)
+### 🎯 8 Core Skills (Progressive Disclosure)
 
 Each skill loads only what you need, when you need it:
 
@@ -86,8 +86,10 @@ Each skill loads only what you need, when you need it:
 4. **deployment-workflows** - CI/CD, zero-downtime deployments
 5. **backend-development-patterns** - API design, repositories, services
 6. **multi-tenant-patterns** - SaaS development, tenant isolation, RLS
+7. **ux-researcher-designer** - Data-driven persona generation, user research, journey mapping
+8. **ui-design-system** - Design token generation, component libraries, design systems
 
-[View all skills →](skills/)
+[View all skills →](.claude/skills/)
 
 ### 🛠️ Advanced Development Toolkit
 
@@ -311,7 +313,7 @@ git clone https://github.com/Primadetaautomation/claude-dev-toolkit.git
 
 [Bekijk alle 38 agents →](agents/)
 
-### 🎯 6 Core Skills (Progressive Disclosure)
+### 🎯 8 Core Skills (Progressive Disclosure)
 
 Elke skill laadt alleen wat je nodig hebt:
 
@@ -321,8 +323,10 @@ Elke skill laadt alleen wat je nodig hebt:
 4. **deployment-workflows** - CI/CD, zero-downtime deployments
 5. **backend-development-patterns** - API design, repositories, services
 6. **multi-tenant-patterns** - SaaS development, tenant isolatie, RLS
+7. **ux-researcher-designer** - Data-driven persona generatie, user research, journey mapping
+8. **ui-design-system** - Design token generatie, component libraries, design systemen
 
-[Bekijk alle skills →](skills/)
+[Bekijk alle skills →](.claude/skills/)
 
 ### 🛠️ Advanced Development Toolkit
 
