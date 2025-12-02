@@ -1,13 +1,13 @@
-# 🎯 CLAUDE - Smart Development Standards
+# CLAUDE - Smart Development Standards
 
-**Versie 5.0 - Modular Intent-Based System**
+**Versie 5.1 - Merged Master Edition**
 
 Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
 **MUST = verplicht** | **SHOULD = aanbevolen** | **COULD = optioneel**
 
 ---
 
-## 📋 Automatische Context Loading (NIEUW!)
+## Automatische Context Loading
 
 **BELANGRIJKE WIJZIGING:** Claude laadt nu automatisch relevante documentatie op basis van je vraag.
 
@@ -36,10 +36,10 @@ Deze regels zorgen voor **hoogwaardige, veilige en maintainbare code**.
 
 ---
 
-### Intent → Docs Mapping
+### Intent -> Docs Mapping
 
-**💾 Data opslaan, ophalen, wijzigen:**
-→ Automatisch laadt: `docs/backend.md`
+**Data opslaan, ophalen, wijzigen:**
+-> Automatisch laadt: `docs/backend.md`
 
 Herkenbare zinnen:
 - "verbinding met database"
@@ -47,8 +47,8 @@ Herkenbare zinnen:
 - "API maken"
 - "gegevens uit database halen"
 
-**🎨 Iets tonen op het scherm:**
-→ Automatisch laadt: `docs/frontend.md`
+**Iets tonen op het scherm:**
+-> Automatisch laadt: `docs/frontend.md`
 
 Herkenbare zinnen:
 - "knop toevoegen"
@@ -57,8 +57,8 @@ Herkenbare zinnen:
 - "lijst tonen"
 - "gebruiker moet kunnen zien"
 
-**🔒 Gebruikers, inloggen, beveiliging:**
-→ Automatisch laadt: `docs/security.md`
+**Gebruikers, inloggen, beveiliging:**
+-> Automatisch laadt: `docs/security.md`
 
 Herkenbare zinnen:
 - "inloggen/registreren"
@@ -67,8 +67,8 @@ Herkenbare zinnen:
 - "privacy/GDPR"
 - "gebruikersgegevens"
 
-**🚀 Online zetten, deployen:**
-→ Automatisch laadt: `docs/infrastructure.md`
+**Online zetten, deployen:**
+-> Automatisch laadt: `docs/infrastructure.md`
 
 Herkenbare zinnen:
 - "website live zetten"
@@ -76,8 +76,8 @@ Herkenbare zinnen:
 - "hosting"
 - "online beschikbaar maken"
 
-**🐛 Probleem oplossen, testen:**
-→ Automatisch laadt: `docs/testing.md`
+**Probleem oplossen, testen:**
+-> Automatisch laadt: `docs/testing.md`
 
 Herkenbare zinnen:
 - "error/fout"
@@ -88,20 +88,189 @@ Herkenbare zinnen:
 
 ---
 
-## 0 — Basis Missie
+## 0 - Basis Missie
 
 - Consistente codekwaliteit, beveiliging en documentatie.
 - Code is **leesbaar voor de volgende developer**.
-- **Efficiënte samenwerking met Claude voor foutloze code delivery**.
+- **Efficiente samenwerking met Claude voor foutloze code delivery**.
 - **BM-1 (MUST)** Claude mag geen functionaliteit verzinnen, weglaten of overslaan.
 - **BM-2 (MUST)** Claude volgt altijd de exacte vraag/opdracht van de gebruiker.
-- **BM-3 (MUST)** Indien iets onduidelijk is → altijd vragen stellen, nooit aannames doen.
+- **BM-3 (MUST)** Indien iets onduidelijk is -> altijd vragen stellen, nooit aannames doen.
 
 ---
 
-## 1 — Planning & Communicatie
+## 0.5 - NO ASSUMPTIONS (CRITICAL)
 
-- **P-1 (MUST)** Stel minimaal 3 clarifying questions vóór coding.
+**LEARNED FROM:** Phase 3 Database Seeding (3+ uur verloren aan trial-and-error)
+**STATUS:** MANDATORY - Violation = Code Rejected
+
+### Core Principle
+
+**NOOIT aannames doen over bestaande systemen, schema's, of data.**
+**ALTIJD eerst verificeren, dan pas implementeren.**
+
+### Database Work - Schema Verification VERPLICHT
+
+**BEFORE writing ANY database code:**
+
+- **NA-1 (MUST)** Haal actuele schema op via `information_schema.columns`
+- **NA-2 (MUST)** Verificeer ALLE kolom namen die je gaat gebruiken
+- **NA-3 (MUST)** Check enum values via `pg_enum` queries
+- **NA-4 (MUST)** Begrijp foreign key constraints
+- **NA-5 (MUST)** Identificeer NOT NULL kolommen
+- **NA-6 (MUST NOT)** NOOIT hardcode tenant slugs, user emails, of IDs
+
+### Verboden Aannames (NEVER DO THIS)
+
+**Column names:**
+```sql
+-- WRONG: Aanname dat users.tenant_id bestaat
+SELECT tenant_id FROM users;
+
+-- RIGHT: Verificeer eerst
+SELECT column_name FROM information_schema.columns
+WHERE table_name = 'users';
+```
+
+**Enum values:**
+```sql
+-- WRONG: Aanname dat 'PERMANENT' geldig is
+INSERT INTO contracts (employment_type) VALUES ('PERMANENT');
+
+-- RIGHT: Check geldige waarden eerst
+SELECT enumlabel FROM pg_enum
+WHERE enumtypid = (SELECT oid FROM pg_type WHERE typname = 'employment_type');
+```
+
+**Hardcoded identifiers:**
+```sql
+-- WRONG: Hardcoded tenant slug
+WHERE slug = 'test-tenant'
+
+-- RIGHT: Dynamisch ophalen
+WHERE id = (SELECT id FROM tenants LIMIT 1)
+-- Of gebruik bestaande relaties
+WHERE tenant_id = (SELECT tenant_id FROM existing_table LIMIT 1)
+```
+
+**Table structure:**
+```sql
+-- WRONG: Aanname over kolom structuur
+INSERT INTO table (col1, col2, col3) VALUES (...)
+
+-- RIGHT: Haal structure op, gebruik alleen bestaande kolommen
+SELECT column_name FROM information_schema.columns WHERE table_name = 'table';
+```
+
+### Verplichte Workflow voor Database Migrations
+
+**STAP 1: Schema Discovery (5-10 minuten)**
+```sql
+-- Haal alle relevante schema info op
+SELECT table_name, column_name, data_type, is_nullable, column_default
+FROM information_schema.columns
+WHERE table_name IN ('table1', 'table2')
+ORDER BY table_name, ordinal_position;
+
+-- Check enums
+SELECT t.typname, array_agg(e.enumlabel ORDER BY e.enumsortorder)
+FROM pg_type t
+JOIN pg_enum e ON t.oid = e.enumtypid
+GROUP BY t.typname;
+
+-- Check foreign keys
+SELECT tc.table_name, kcu.column_name, ccu.table_name AS foreign_table
+FROM information_schema.table_constraints tc
+JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name
+WHERE tc.constraint_type = 'FOREIGN KEY';
+```
+
+**STAP 2: Document Schema in Migration**
+```sql
+-- ============================================================================
+-- Schema Reference (verified YYYY-MM-DD)
+-- ============================================================================
+-- Table: target_table
+-- Columns: id, tenant_id, action_type (enum: 'REJECT', 'APPROVE')
+-- Foreign Keys: tenant_id -> tenants(id)
+-- ============================================================================
+```
+
+**STAP 3: Dynamic Data Lookups**
+```sql
+-- Gebruik bestaande data als basis
+DO $$
+DECLARE
+  v_tenant_id UUID;
+BEGIN
+  -- Haal van bestaande record
+  SELECT tenant_id INTO v_tenant_id
+  FROM existing_table LIMIT 1;
+
+  IF v_tenant_id IS NULL THEN
+    RAISE EXCEPTION 'No valid data found';
+  END IF;
+
+  -- Gebruik verified waarden
+  INSERT INTO new_table (tenant_id) VALUES (v_tenant_id);
+END $$;
+```
+
+**STAP 4: Validation Before Insert**
+```sql
+-- Verify foreign keys exist
+IF NOT EXISTS (SELECT 1 FROM parent_table WHERE id = v_parent_id) THEN
+  RAISE EXCEPTION 'Parent record not found';
+END IF;
+```
+
+### Cost of Violations
+
+**Real example from Phase 3:**
+- **Time without verification:** 3+ hours (17 errors, trial-and-error)
+- **Time with verification:** 30 minutes estimated
+- **Efficiency loss:** 6x
+- **User frustration:** High ("dit moet anders", "dit duurt te lang")
+
+**Prevention cost:** 10 minuten schema verificatie
+**Violation cost:** Uren debugging + user frustration
+
+### Red Flags That Indicate Assumptions
+
+Als je een van deze zinnen gebruikt, STOP en verificeer:
+
+- "Ik ga ervan uit dat..."
+- "De kolom moet/zal wel ... heten"
+- "Normaal gesproken is dit..."
+- "In de meeste databases..."
+- "Logischerwijs zou dit..."
+- "De enum heeft waarschijnlijk..."
+
+**Bij twijfel: VERIFICEER, niet AANNEMEN**
+
+### Success Criteria
+
+**Code is approved als:**
+- Schema is gedocumenteerd in migration
+- Alle kolommen zijn geverifieerd
+- Enum waarden zijn gecontroleerd
+- Foreign keys zijn begrepen
+- Dynamic lookups worden gebruikt
+- Validation queries zijn aanwezig
+- Error handling is compleet
+
+**Code wordt rejected als:**
+- Hardcoded tenant/user references
+- Ongecontroleerde enum waarden
+- Aangenomen kolom namen
+- Geen schema documentatie
+- Geen validation queries
+
+---
+
+## 1 - Planning & Communicatie
+
+- **P-1 (MUST)** Stel minimaal 3 clarifying questions voor coding.
 - **P-2 (MUST)** Maak een step-by-step plan en vraag expliciet om akkoord.
 - **P-3 (MUST)** Bij meerdere opties: comparison table met pros/cons.
 - **P-4 (MUST)** Definieer acceptance criteria.
@@ -110,8 +279,8 @@ Herkenbare zinnen:
 - **P-7 (MUST)** Documenteer impact op bestaande code.
 - **P-8 (SHOULD)** Noem welke files je gaat aanpassen.
 
-### 🔍 Impact Analysis (CRITICAL)
-- **IA-1 (MUST)** Vóór ELKE code wijziging: analyseer impact op bestaande functionaliteit.
+### Impact Analysis (CRITICAL)
+- **IA-1 (MUST)** Voor ELKE code wijziging: analyseer impact op bestaande functionaliteit.
 - **IA-2 (MUST)** Check alle afhankelijkheden die geraakt kunnen worden.
 - **IA-3 (MUST)** Zoek naar alle files die de te wijzigen code importeren/gebruiken.
 - **IA-4 (MUST)** Run bestaande tests VOOR wijzigingen om baseline te bepalen.
@@ -121,7 +290,7 @@ Herkenbare zinnen:
 
 ---
 
-## 2 — Code Kwaliteit
+## 2 - Code Kwaliteit
 
 - **C-1 (MUST)** Single Responsibility Principle.
 - **C-2 (MUST)** DRY (geen duplicatie).
@@ -140,11 +309,11 @@ Herkenbare zinnen:
 
 ---
 
-## 3 — Error Handling
+## 3 - Error Handling
 
 - **E-1 (MUST)** Handle alle error scenarios.
 - **E-2 (MUST)** Specifieke error types/messages.
-- **E-3 (MUST)** Logging mét context.
+- **E-3 (MUST)** Logging met context.
 - **E-4 (MUST NOT)** Silent failures.
 - **E-5 (SHOULD)** Fail fast: inputs vroeg valideren.
 
@@ -156,9 +325,9 @@ Herkenbare zinnen:
 
 ---
 
-## 4 — Testing
+## 4 - Testing
 
-- **T-1 (MUST)** TDD (Red → Green → Refactor).
+- **T-1 (MUST)** TDD (Red -> Green -> Refactor).
 - **T-2 (MUST)** Minimaal 80% coverage nieuwe code.
 - **T-3 (MUST)** Test happy path, errors, edge cases.
 - **TQ-1 (MUST)** Beschrijvende testnamen.
@@ -169,7 +338,7 @@ Herkenbare zinnen:
 
 ---
 
-## 5 — Security & Privacy
+## 5 - Security & Privacy
 
 - **SEC-1 (MUST)** Input validation aan system boundaries.
 - **SEC-2 (MUST)** Sanitize outputs.
@@ -182,14 +351,14 @@ Herkenbare zinnen:
 
 ---
 
-## 6 — Git & Version Control
+## 6 - Git & Version Control
 
 - **GIT-1 (MUST)** Conventional Commits.
 - **GIT-2 (MUST)** Atomic commits.
 - **GIT-3 (MUST NOT)** Geen AI/Claude in commit messages.
 - **B-1 (SHOULD)** Feature branches.
 - **B-2 (MUST)** Code review voor merge naar main.
-- **B-3 (SHOULD)** PR's max ±300 regels.
+- **B-3 (SHOULD)** PR's max +/-300 regels.
 
 ### Git Worktrees
 
@@ -201,11 +370,11 @@ Herkenbare zinnen:
 - Elke worktree krijgt eigen dependency installatie
 
 **Wanneer agents worktrees gebruiken:**
-- ✅ Feature development na brainstorming approval
-- ✅ Multi-step implementation plans uitvoeren
-- ✅ Features die isolatie vereisen van huidige workspace
-- ❌ Snelle fixes op huidige branch
-- ❌ Simpele file edits of documentatie updates
+- Feature development na brainstorming approval
+- Multi-step implementation plans uitvoeren
+- Features die isolatie vereisen van huidige workspace
+- NIET voor snelle fixes op huidige branch
+- NIET voor simpele file edits of documentatie updates
 
 **Setup (automatisch door agents):**
 ```bash
@@ -223,12 +392,12 @@ git branch -D <branch-name>  # Optioneel
 
 ---
 
-## 7 — Context & Memory Management
+## 7 - Context & Memory Management
 
 ### Context Window Tiers
 | Tier | Tokens | Use Case | Cost | Auto-Select |
 |------|--------|----------|------|-------------|
-| Minimal | 32K | 1 file, simple edits | 1x | ≤1 file, no deps |
+| Minimal | 32K | 1 file, simple edits | 1x | <=1 file, no deps |
 | Small | 64K | 2-3 files, isolated feature | 2x | 2-3 files, limited scope |
 | Medium | 128K | 4-8 files, related components | 4x | 4-8 files, moderate logic |
 | Standard | 200K | 9-15 files, complex logic | 6x | 9-15 files, integrations |
@@ -241,14 +410,14 @@ Claude analyseert automatisch:
 2. **Dependency Depth** - Hoe diep gaan dependencies
 3. **Code Complexity** - Cyclomatic complexity
 4. **Task Type**:
-   - Simple: Bug fix, typo → 32K-64K
-   - Moderate: New feature → 128K-200K
-   - Complex: Refactoring → 500K-1M
+   - Simple: Bug fix, typo -> 32K-64K
+   - Moderate: New feature -> 128K-200K
+   - Complex: Refactoring -> 500K-1M
 5. **Cross-cutting Concerns** - Security, performance impact
 
 ---
 
-## 8 — Claude Optimization
+## 8 - Claude Optimization
 
 ### Context & Communication
 - **CL-1 (MUST)** Geef volledige file paths en project structuur.
@@ -265,7 +434,7 @@ Claude analyseert automatisch:
 - **AGENT-3 (SHOULD)** Delegeer naar specifieke agents op basis van taaktype:
   - **backend-specialist**: API's, databases, server-side logic
   - **frontend-specialist**: UI components, styling, client-side interactie
-  - **⚠️ SECURITY: Gebruik `Skill: security-essentials`** - NIET een security agent!
+  - **SECURITY: Gebruik `Skill: security-essentials`** - NIET een security agent!
   - **qa-testing-engineer**: Test strategie, coverage analysis, quality assurance
   - **accessibility-specialist**: WCAG compliance, inclusive design
   - **data-engineer**: ETL pipelines, data warehouse, data quality
@@ -288,51 +457,52 @@ Claude analyseert automatisch:
 
 ---
 
-## 9 — Priority Matrix
+## 9 - Priority Matrix
 
-### 🔴 CRITICAL - Always Apply
+### CRITICAL - Always Apply
 **Core Requirements (Breaking these = delivery rejected)**
 - **BM-1, BM-2, BM-3** - Basis missie
-- **IA-1 to IA-7** - Impact Analysis (NIEUW!)
+- **NA-1 to NA-6** - NO ASSUMPTIONS (Database work)
+- **IA-1 to IA-7** - Impact Analysis
 - **SEC-1 to SEC-8** - Security
 - **E-1 to E-4** - Error handling
 - **CL-12 to CL-14** - Strikte opdracht uitvoering
 
-### 🟠 HIGH - Most Projects
+### HIGH - Most Projects
 - **T-1, T-2, T-3** - TDD, 80% coverage
 - **C-1 to C-5** - Code quality
 - **GIT-1 to GIT-3** - Git conventions
 - **CL-1 to CL-11** - Claude optimization
 
-### 🟡 MEDIUM - Team/Project Dependent
+### MEDIUM - Team/Project Dependent
 - Documentation standards
 - Accessibility requirements
 - Team communication protocols
 
-### 🟢 NICE-TO-HAVE
+### NICE-TO-HAVE
 - Advanced testing (visual, cross-browser)
 - Advanced monitoring tools
 - IDE configurations
 
 ---
 
-## 📚 Agent Skills System (NIEUW!)
+## Agent Skills System
 
 **Claude gebruikt nu Agent Skills** - georganiseerde bundles van instructies, patronen en scripts die automatisch geladen worden op basis van je taak.
 
-### 🎯 Automatische Skill Loading
+### Automatische Skill Loading
 
 Claude detecteert automatisch welke skills nodig zijn:
 
 **Backend Development:**
-→ Laadt: `backend-development-patterns`
+-> Laadt: `backend-development-patterns`
 - API design (REST/GraphQL)
 - Database patterns
 - Repository & Service layers
 - Authentication patterns
 
 **Security Review:**
-→ Laadt: `security-essentials` (GEBRUIK DIT, NIET security agent!)
+-> Laadt: `security-essentials` (GEBRUIK DIT, NIET security agent!)
 - OWASP Top 10 checklist
 - Input validation patterns
 - Secret management
@@ -340,36 +510,62 @@ Claude detecteert automatisch welke skills nodig zijn:
 - **BELANGRIJK: Gebruik ALTIJD de security-essentials skill, NOOIT Task tool voor security**
 
 **Testing & QA:**
-→ Laadt: `testing-fundamentals`
+-> Laadt: `testing-fundamentals`
 - TDD workflow (Red-Green-Refactor)
 - Test coverage requirements
 - AAA pattern
 - Test data factories
 
 **Production Deployment:**
-→ Laadt: `deployment-workflows`
+-> Laadt: `deployment-workflows`
 - CI/CD pipelines
 - Zero-downtime strategies
 - Health checks
 - Rollback procedures
 
 **Code Quality:**
-→ Laadt: `production-code-standards`
+-> Laadt: `production-code-standards`
 - SOLID principles
 - Error handling patterns
 - Code review checklist
 - Quality gate scripts
 
-### 📦 Skills Locatie
+**UX Research & Design:**
+-> Laadt: `ux-researcher-designer`
+- User research methodologies
+- Persona development
+- Journey mapping
+- Usability testing
 
-Alle skills zijn beschikbaar in: `.claude-skills/`
+**UI Design System:**
+-> Laadt: `ui-design-system`
+- Design tokens
+- Component documentation
+- Responsive design
+- Developer handoff
+
+**Intelligent Routing:**
+-> Laadt: `intelligent-router`
+- Automatic agent dispatch
+- Task analysis
+- Optimal tool selection
+
+**Supabase RLS:**
+-> Laadt: `supabase-rls-fix`
+- RLS policy patterns
+- User context handling
+- System process access
+
+### Skills Locatie
+
+Alle skills zijn beschikbaar in: `skills/` of `.claude/skills/`
 
 Elke skill bevat:
 - `SKILL.md` - Hoofd documentatie met progressive disclosure
 - Detailed patterns - Diepgaande implementatie voorbeelden
 - Scripts - Uitvoerbare tools en automatisering
 
-### 🔄 Progressive Context Loading
+### Progressive Context Loading
 
 Skills gebruiken 3 context levels:
 1. **Minimal** (Level 1) - Altijd geladen, core principles
@@ -378,27 +574,27 @@ Skills gebruiken 3 context levels:
 
 Dit bespaart context tokens en laadt alleen wat nodig is.
 
-### 🎨 Skills vs Docs
+### Skills vs Docs
 
-**Skills** (`.claude/skills/`) = Reusable patterns + scripts + tools
+**Skills** (`skills/` of `.claude/skills/`) = Reusable patterns + scripts + tools
 **Docs** (`docs/`) = Project-specifieke documentatie
 
 Skills zijn herbruikbaar over projecten heen, docs zijn project-specifiek.
 
-### 📚 Beschikbare Extended Docs
+### Beschikbare Extended Docs
 
 Als je meer detail nodig hebt, zeg dan expliciet:
-- **"Gebruik ook backend docs"** → laadt `docs/backend.md`
-- **"Gebruik ook frontend docs"** → laadt `docs/frontend.md`
-- **"Gebruik ook security docs"** → laadt `docs/security.md`
-- **"Gebruik ook infrastructure docs"** → laadt `docs/infrastructure.md`
-- **"Gebruik ook testing docs"** → laadt `docs/testing.md`
+- **"Gebruik ook backend docs"** -> laadt `docs/backend.md`
+- **"Gebruik ook frontend docs"** -> laadt `docs/frontend.md`
+- **"Gebruik ook security docs"** -> laadt `docs/security.md`
+- **"Gebruik ook infrastructure docs"** -> laadt `docs/infrastructure.md`
+- **"Gebruik ook testing docs"** -> laadt `docs/testing.md`
 
 Claude doet dit meestal automatisch, maar je kunt het ook handmatig vragen.
 
 ---
 
-## 🚀 Quick Commands
+## Quick Commands
 
 ### Planning & Context
 - **`/qnew`** - Start nieuwe taak (auto-load relevante docs)
@@ -419,20 +615,20 @@ Claude doet dit meestal automatisch, maar je kunt het ook handmatig vragen.
 
 ---
 
-## 💡 Voor Niet-Technische Gebruikers
+## Voor Niet-Technische Gebruikers
 
 **Je hoeft GEEN technische taal te gebruiken!**
 
 Zeg gewoon wat je wilt:
-- ✅ "Ik wil dat bezoekers hun email kunnen achterlaten"
-- ✅ "Maak een knop die data opslaat"
-- ✅ "Gebruikers moeten kunnen inloggen"
+- "Ik wil dat bezoekers hun email kunnen achterlaten"
+- "Maak een knop die data opslaat"
+- "Gebruikers moeten kunnen inloggen"
 
 Claude herkent dit automatisch en laadt de juiste documentatie.
 
 ---
 
-## 🎯 Success Metrics
+## Success Metrics
 
 ### Weekly Review
 - [ ] First-time success rate > 70%
@@ -449,6 +645,6 @@ Claude herkent dit automatisch en laadt de juiste documentatie.
 
 ---
 
-*Versie 5.0 - Modular Intent-Based System*
-*Character count: ~8,500 (well under 40,000 limit)*
+*Versie 5.1 - Merged Master Edition*
+*Gecombineerd uit: Vacature-ORBIT (NO ASSUMPTIONS), claude-dev-toolkit (Git Worktrees), root CLAUDE.md*
 *Extended docs: docs/backend.md, docs/frontend.md, docs/security.md, docs/infrastructure.md, docs/testing.md*
